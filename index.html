@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strata GNU/Linux</title>
+<meta name="description" content="Strata is an ebuild-native GNU/Linux distribution built on Gentoo's tree, powered by the Step package manager.">
+<meta name="theme-color" content="#0c0f12">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="#home" aria-label="Strata home">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="wordmark">STRATA</span>
+      <span class="pill">pre-alpha</span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Documentation">
+      <button role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" data-tab="home">Home</button>
+      <button role="tab" id="tab-install" aria-controls="panel-install" aria-selected="false" tabindex="-1" data-tab="install">Install</button>
+      <button role="tab" id="tab-step" aria-controls="panel-step" aria-selected="false" tabindex="-1" data-tab="step">Step</button>
+      <button role="tab" id="tab-repositories" aria-controls="panel-repositories" aria-selected="false" tabindex="-1" data-tab="repositories">Repositories</button>
+      <button role="tab" id="tab-kernel" aria-controls="panel-kernel" aria-selected="false" tabindex="-1" data-tab="kernel">Kernel</button>
+      <button role="tab" id="tab-roadmap" aria-controls="panel-roadmap" aria-selected="false" tabindex="-1" data-tab="roadmap">Roadmap</button>
+      <button role="tab" id="tab-faq" aria-controls="panel-faq" aria-selected="false" tabindex="-1" data-tab="faq">FAQ</button>
+      <button role="tab" id="tab-contribute" aria-controls="panel-contribute" aria-selected="false" tabindex="-1" data-tab="contribute">Contribute</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="panel" role="tabpanel" id="panel-home" aria-labelledby="tab-home" tabindex="0">
+    <div class="hero">
+      <p class="eyebrow">Ebuild-native · Source-based · OpenRC</p>
+      <h1>Gentoo, refined.</h1>
+      <p class="lede">Strata is a GNU/Linux distribution built on Gentoo's package tree, with a faster package manager called <strong>Step</strong>, a guided installer, and a tuned kernel. You keep the control. You lose the rough edges.</p>
+      <div class="cta">
+        <a class="button primary" href="#install">Read the install plan</a>
+        <a class="button" href="#step">Meet Step</a>
+      </div>
+      <p class="note">Status: pre-alpha. The architecture is set and Step is in active development. Strata is not installable yet.</p>
+    </div>
+
+    <div class="callout warn">
+      <strong>Honest status.</strong> Step implements argument parsing, configuration loading, repository sync, package search, and unmasking. The resolver, merge engine, sandbox, and binary package layer are the next milestone. Nothing below is a finished product.
+    </div>
+
+    <h2>What Strata is</h2>
+    <p>Strata keeps what makes Gentoo good and replaces the rough edges. It does not fork the ebuild tree. It consumes Gentoo's tree unchanged.</p>
+
+    <div class="grid">
+      <article class="card">
+        <h3>Ebuild-native</h3>
+        <p>Gentoo's overlay and repository format, profiles, USE flags, and eclasses work as-is. No conversion layer, no proprietary recipe format.</p>
+      </article>
+      <article class="card">
+        <h3>Step</h3>
+        <p>A C++ package manager with emerge-compatible syntax, a faster resolver and metadata cache, and a one-command unmask flow.</p>
+      </article>
+      <article class="card">
+        <h3>Guided install</h3>
+        <p>Whiptail tools for disks, mounts, base extraction, chroot, and configuration. Every step is a command you can run on its own.</p>
+      </article>
+      <article class="card">
+        <h3>Binhost first</h3>
+        <p>GPKG-compatible binary packages. Pull from Gentoo's binary cache on day one and publish a Strata binhost later.</p>
+      </article>
+      <article class="card">
+        <h3>OpenRC</h3>
+        <p>Predictable service management, no logind dependency, and service scripts that already exist in the Gentoo tree.</p>
+      </article>
+      <article class="card">
+        <h3>Tuned kernel</h3>
+        <p>gentoo-sources plus a performance-oriented Kconfig fragment: 1000 Hz timers, dynamic preemption, ZRAM, and common hardware.</p>
+      </article>
+      <article class="card">
+        <h3>Real documentation</h3>
+        <p>This site is the handbook. Every component has an honest status, a command reference, and a design note.</p>
+      </article>
+      <article class="card">
+        <h3>Open source</h3>
+        <p>GPL-2.0. Step reimplements Portage behaviour, so the license follows. The source, installer, configs, and site are all in one repository.</p>
+      </article>
+    </div>
+
+    <h2>Principles</h2>
+    <table>
+      <thead><tr><th>Principle</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Do not fork the tree</td><td>Strata tracks Gentoo's ebuilds. Compatibility is the feature.</td></tr>
+        <tr><td>Measure speed</td><td>"Faster" means benchmarked resolution, metadata, and merge time, not a rewritten compiler.</td></tr>
+        <tr><td>Be honest</td><td>The docs say what works and what does not. No fake screenshots, no imaginary release dates.</td></tr>
+        <tr><td>One obvious tool per job</td><td>setup-disks partitions. setup-mounts mounts. strata-setup configures.</td></tr>
+        <tr><td>Comments live in docs</td><td>Code stays readable without comments. Prose belongs in the handbook.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-install" aria-labelledby="tab-install" tabindex="0" hidden>
+    <h1>Install Strata</h1>
+    <div class="callout warn">
+      <strong>Not installable yet.</strong> The tools exist and the flow is wired, but the base system is still Gentoo's stage3 and Step is not the default package manager. Treat this as an architecture preview. Running setup-disks erases disks.
+    </div>
+
+    <h2>Planned flow</h2>
+    <p>The installer is a set of small commands. <code>strata-guide</code> is a menu that runs them in order, but each one works alone.</p>
+    <pre><code>strata-guide
+setup-disks
+setup-mounts
+setup-tar
+strata-chroot
+strata-setup</code></pre>
+
+    <h2>Step by step</h2>
+    <ol class="steps">
+      <li>
+        <h3>Partition</h3>
+        <p><code>setup-disks</code> lists physical disks, asks for confirmation, and creates a GPT layout: a 1 GiB EFI partition, a 4 GiB swap partition, and the rest as root. Manual partitioning opens <code>cfdisk</code>. Partitions are labelled <code>STRATA-EFI</code>, <code>STRATA-SWAP</code>, and <code>STRATA-ROOT</code>.</p>
+      </li>
+      <li>
+        <h3>Mount</h3>
+        <p><code>setup-mounts</code> finds the labelled partitions, mounts root at <code>/mnt/strata</code>, mounts EFI at <code>/mnt/strata/efi</code>, and enables swap. If labels are missing, it asks you to pick partitions.</p>
+      </li>
+      <li>
+        <h3>Extract the base</h3>
+        <p><code>setup-tar</code> downloads the latest Gentoo OpenRC stage3, verifies the SHA256 sum, and extracts it into the target. The stage3 URL can be overridden with <code>STRATA_STAGE3_BASE</code>.</p>
+      </li>
+      <li>
+        <h3>Chroot</h3>
+        <p><code>strata-chroot</code> bind-mounts <code>/dev</code>, <code>/proc</code>, <code>/sys</code>, and <code>/run</code>, copies DNS configuration, and opens a shell inside the target.</p>
+      </li>
+      <li>
+        <h3>Configure</h3>
+        <p><code>strata-setup</code> is a whiptail menu inside the chroot: sync the tree, choose a profile, set the root password, create a user, set hostname, timezone, locale, build a kernel, generate fstab, install GRUB, and enable DHCP.</p>
+      </li>
+    </ol>
+
+    <h2>Requirements</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Minimum</th></tr></thead>
+      <tbody>
+        <tr><td>Architecture</td><td>x86-64 with UEFI</td></tr>
+        <tr><td>Disk</td><td>8 GiB, more for a desktop</td></tr>
+        <tr><td>Memory</td><td>1 GiB to boot, 2 GiB to build a kernel</td></tr>
+        <tr><td>Network</td><td>Required for stage3 and ebuild downloads</td></tr>
+        <tr><td>Live media</td><td>Any Linux live environment with whiptail, sgdisk, and curl</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Bootstrap note</h2>
+    <p>A distribution must be able to build itself. Strata currently bootstraps from Gentoo's stage3 and then uses Portage inside the chroot. Strata stage3 images, built with Step and published to a binhost, are the milestone that makes this a true self-hosted distribution.</p>
+
+    <h2>Install the installer tools</h2>
+    <pre><code>git clone https://github.com/Xioriya/strata
+cd strata
+sudo make -C installer install
+sudo strata-guide</code></pre>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-step" aria-labelledby="tab-step" tabindex="0" hidden>
+    <h1>Step</h1>
+    <p>Step is Strata's package manager. It is a C++ reimplementation of Portage's orchestration layer with an emerge-compatible command line and a few deliberate usability wins.</p>
+
+    <h2>Design</h2>
+    <p>Ebuilds are bash scripts. Rewriting them in C++ would not make them faster. Step keeps ebuild phases in bash inside a sandbox and moves the expensive surround work to C++:</p>
+    <table>
+      <thead><tr><th>Layer</th><th>Owner</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Argument parsing and UI</td><td>Step (C++)</td><td>Instant startup, predictable output</td></tr>
+        <tr><td>Configuration and profiles</td><td>Step (C++)</td><td>Read Portage formats directly</td></tr>
+        <tr><td>Metadata cache</td><td>Step (C++)</td><td>Parallel generation, stable keys</td></tr>
+        <tr><td>Dependency resolution</td><td>Step (C++)</td><td>Slots, subslots, blockers, REQUIRED_USE</td></tr>
+        <tr><td>Fetch and build scheduling</td><td>Step (C++)</td><td>Parallelism with clear failure reporting</td></tr>
+        <tr><td>Ebuild phases</td><td>bash + sandbox</td><td>Ebuilds are bash; compatibility wins</td></tr>
+        <tr><td>Merge and VDB</td><td>Step (C++)</td><td>Atomic writes, preserved rebuilds</td></tr>
+        <tr><td>Binary packages</td><td>Step (C++)</td><td>GPKG read and write</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Command line</h2>
+    <p>Emerge syntax is the base. You do not have to relearn flags.</p>
+    <table>
+      <thead><tr><th>Task</th><th>Command</th></tr></thead>
+      <tbody>
+        <tr><td>Install with confirmation</td><td><code>step -av firefox</code></td></tr>
+        <tr><td>Update the world set</td><td><code>step -uD @world</code></td></tr>
+        <tr><td>Sync the tree</td><td><code>step --sync</code></td></tr>
+        <tr><td>Search names</td><td><code>step -s rust</code></td></tr>
+        <tr><td>Uninstall</td><td><code>step -C firefox</code></td></tr>
+        <tr><td>Remove unused packages</td><td><code>step --depclean</code></td></tr>
+        <tr><td>Show configuration</td><td><code>step --info</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Easier unmasking</h2>
+    <p>Unmasking in Portage means editing <code>package.accept_keywords</code> by hand. Step does it for you and deduplicates the file.</p>
+    <pre><code>step unmask app-editors/neovim</code></pre>
+    <p>That appends <code>app-editors/neovim ~amd64</code> to <code>/etc/portage/package.accept_keywords/strata.conf</code>. Related helpers:</p>
+    <pre><code>step mask sys-apps/foo
+step use app-editors/neovim wayland X</code></pre>
+
+    <h2>Compatibility</h2>
+    <table>
+      <thead><tr><th>Surface</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><code>make.conf</code></td><td>Read, including variable expansion</td></tr>
+        <tr><td><code>package.use</code>, <code>package.accept_keywords</code>, <code>package.mask</code></td><td>Read and written</td></tr>
+        <tr><td><code>repos.conf</code></td><td>Read, including custom repositories</td></tr>
+        <tr><td>VDB (<code>/var/db/pkg</code>)</td><td>Planned, Portage-compatible records</td></tr>
+        <tr><td>GPKG binary packages</td><td>Planned, read and write</td></tr>
+      </tbody>
+    </table>
+
+    <h2>What "faster" means</h2>
+    <p>Step will be measured, not marketed. The benchmarks are dependency resolution on a fixed 50-package set, metadata cache rebuild time, and cold-start time. Compilation time is excluded because no package manager can improve it. Expect clear numbers in the roadmap, not vague claims.</p>
+
+    <h2>Current commands</h2>
+    <pre><code>step --help
+step --version
+step --info
+step --sync
+step --search &lt;query&gt;
+step unmask &lt;atom&gt;...
+step mask &lt;atom&gt;...
+step use &lt;atom&gt; &lt;flag&gt;...</code></pre>
+    <p>Install, remove, update, and depclean currently report that the resolver is the next milestone. That is deliberate: the tools do not pretend to install packages yet.</p>
+
+    <h2>Build</h2>
+    <pre><code>cd step
+make
+./step --info</code></pre>
+    <p>C++20, no third-party dependencies.</p>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-repositories" aria-labelledby="tab-repositories" tabindex="0" hidden>
+    <h1>Repositories</h1>
+    <p>Strata uses Gentoo's ebuild tree as its main repository and reads Portage's <code>repos.conf</code> format. Custom overlays work the same way they do on Gentoo.</p>
+
+    <h2>Default repository</h2>
+    <pre><code>[DEFAULT]
+main-repo = gentoo
+
+[gentoo]
+location = /var/db/repos/gentoo
+sync-type = git
+sync-uri = https://github.com/gentoo/gentoo.git
+auto-sync = yes</code></pre>
+
+    <h2>Custom repositories</h2>
+    <p>Drop another file into <code>/etc/portage/repos.conf/</code>:</p>
+    <pre><code>[my-overlay]
+location = /var/db/repos/my-overlay
+sync-type = git
+sync-uri = https://example.com/my-overlay.git
+auto-sync = yes</code></pre>
+
+    <h2>Sync</h2>
+    <pre><code>step --sync</code></pre>
+    <p>Step clones the tree if <code>/var/db/repos/gentoo</code> is not a git checkout, and fast-forwards it if it is. <code>step --sync --pretend</code> prints the exact git command without running it.</p>
+
+    <h2>Inspect</h2>
+    <pre><code>step --info</code></pre>
+    <p>The info view lists the configuration root, repository root, make.conf path, distdir, VDB root, binhost, every repository location it found, parsed make.conf variables, installed package count, and whether the tree is synced.</p>
+
+    <h2>Compatibility rules</h2>
+    <ul class="list">
+      <li>The ebuild tree is never modified.</li>
+      <li>Repository priority and <code>masters</code> follow Portage semantics.</li>
+      <li>Profiles, USE_EXPAND, and masks are read from the repositories and <code>/etc/portage</code>.</li>
+      <li>Custom repositories use the same layout as Gentoo overlays.</li>
+    </ul>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-kernel" aria-labelledby="tab-kernel" tabindex="0" hidden>
+    <h1>Kernel</h1>
+    <p>Strata ships <code>gentoo-sources</code> with a performance-oriented Kconfig fragment and, later, a prebuilt kernel binpkg.</p>
+
+    <h2>Goals</h2>
+    <div class="grid compact">
+      <article class="card"><h3>Responsive</h3><p>1000 Hz timers, high-resolution timers, dynamic preemption.</p></article>
+      <article class="card"><h3>Compatible</h3><p>NVMe, AHCI, USB, EFI stub, ext4, common Ethernet and Wi-Fi.</p></article>
+      <article class="card"><h3>Lean</h3><p>No debug info, no KASAN, a <code>-strata</code> localversion.</p></article>
+      <article class="card"><h3>Memory-aware</h3><p>ZRAM, ZSWAP, and transparent huge pages enabled.</p></article>
+    </div>
+
+    <h2>Fragment</h2>
+    <pre><code>CONFIG_PREEMPT_DYNAMIC=y
+CONFIG_PREEMPT=y
+CONFIG_HZ_1000=y
+CONFIG_HZ=1000
+CONFIG_EXT4_FS=y
+CONFIG_VFAT_FS=y
+CONFIG_BLK_DEV_NVME=y
+CONFIG_SATA_AHCI=y
+CONFIG_VIRTIO=m
+CONFIG_ZSWAP=y
+CONFIG_ZRAM=m
+CONFIG_TRANSPARENT_HUGEPAGE=y
+CONFIG_DEBUG_INFO_NONE=y
+CONFIG_LOCALVERSION="-strata"</code></pre>
+
+    <h2>Build</h2>
+    <pre><code>emerge sys-kernel/gentoo-sources
+cd /usr/src/linux
+make defconfig
+/path/to/strata/config/kernel/apply.sh /usr/src/linux
+make -j"$(nproc)"
+make modules_install
+make install</code></pre>
+
+    <h2>Apply script</h2>
+    <p><code>config/kernel/apply.sh</code> merges <code>strata.fragment</code> into the kernel's <code>.config</code> with the kernel's own <code>merge_config.sh</code>, then runs <code>olddefconfig</code>. The fragment is a baseline, not a universal config. Laptop power management, NVIDIA, and exotic Wi-Fi belong in a local fragment.</p>
+
+    <h2>LQX</h2>
+    <p>Liquorix patches target Debian kernels and are rebased per release. Strata may offer an optional LQX track later, but the default is a tuned <code>gentoo-sources</code> kernel that the project can maintain reliably.</p>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-roadmap" aria-labelledby="tab-roadmap" tabindex="0" hidden>
+    <h1>Roadmap</h1>
+    <p>Each milestone has an acceptance criterion. No dates. A milestone is done when the test passes.</p>
+
+    <ol class="timeline">
+      <li>
+        <span class="status done">done</span>
+        <h3>M0 — Reference and harness</h3>
+        <p>Study Portage's CLI, depgraph, VDB, and GPKG layout. Record emerge's command surface. Clone the reference under <code>Projects/portage-reference</code>.</p>
+      </li>
+      <li>
+        <span class="status done">done</span>
+        <h3>M1 — Repository skeleton</h3>
+        <p>Strata repository, installer suite, Portage configs, kernel fragment, documentation site, and Pages deployment.</p>
+      </li>
+      <li>
+        <span class="status active">active</span>
+        <h3>M2 — Step foundation</h3>
+        <p>Argument parsing, configuration loading, sync, search, unmask, mask, and use. Shipped in <code>step/</code>. Acceptance: builds clean with <code>-Wall -Wextra -Wpedantic</code> and the config helpers behave correctly.</p>
+      </li>
+      <li>
+        <span class="status">next</span>
+        <h3>M3 — Metadata and resolver</h3>
+        <p>Parallel metadata cache, then a resolver covering slots, subslots, blockers, REQUIRED_USE, and USE flags. Acceptance: dependency graphs match Portage on a fixed test corpus.</p>
+      </li>
+      <li>
+        <span class="status">next</span>
+        <h3>M4 — Merge and binpkgs</h3>
+        <p>Sandboxed ebuild phases, atomic merge, VDB-compatible records, and GPKG read/write. Acceptance: install from Gentoo's binary host, then rebuild the same package from source.</p>
+      </li>
+      <li>
+        <span class="status">next</span>
+        <h3>M5 — Benchmarks</h3>
+        <p>Publish resolution, metadata, and cold-start numbers against Portage on the same hardware and package set.</p>
+      </li>
+      <li>
+        <span class="status">next</span>
+        <h3>M6 — Self-hosted Strata</h3>
+        <p>Strata stage3 images built with Step, a Strata binhost, and Step as the default package manager. Acceptance: build a stage3 from Strata, boot it, and rebuild it.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-faq" aria-labelledby="tab-faq" tabindex="0" hidden>
+    <h1>FAQ</h1>
+
+    <details open>
+      <summary>Is Strata just Gentoo with a script?</summary>
+      <p>Today, close. The installer bootstraps from Gentoo's stage3 and uses Portage inside the chroot. Strata becomes its own distribution at M6, when Step builds Strata stage3 images and Strata is self-hosted.</p>
+    </details>
+
+    <details>
+      <summary>Is Step a fork of Portage?</summary>
+      <p>No. Step is a clean-room C++ implementation. Portage is used as a behavioural reference and test oracle. Step does not copy Portage source. Both are GPL-2.0.</p>
+    </details>
+
+    <details>
+      <summary>Why C++?</summary>
+      <p>Fast startup, predictable memory use, and direct control over scheduling and caching. The speed win is in resolution, metadata, and merge work, not in compiling packages.</p>
+    </details>
+
+    <details>
+      <summary>Will binary packages work?</summary>
+      <p>Yes, through GPKG compatibility. The plan is to install from Gentoo's binary host immediately and publish a Strata binhost later.</p>
+    </details>
+
+    <details>
+      <summary>Why OpenRC instead of dinit?</summary>
+      <p>Gentoo's packages ship OpenRC service scripts. Compatibility reduces maintenance and avoids maintaining a parallel service tree. dinit can be an opt-in track later.</p>
+    </details>
+
+    <details>
+      <summary>Why not use Gentoo's repo with a totally new recipe format?</summary>
+      <p>Because ebuild compatibility is the point. A new format would require an importer and would lag behind the tree. Strata consumes ebuilds directly.</p>
+    </details>
+
+    <details>
+      <summary>When can I install it?</summary>
+      <p>Not yet. The installer flow is wired but the base is Gentoo's stage3 and Step is not the default package manager. Watch the roadmap for M6.</p>
+    </details>
+
+    <details>
+      <summary>What hardware is targeted?</summary>
+      <p>x86-64 with UEFI. The kernel fragment covers common desktop, laptop, and virtio hardware. Non-x86 ports are out of scope for now.</p>
+    </details>
+
+    <details>
+      <summary>How can I help?</summary>
+      <p>Benchmark Portage, test the installer in a virtual machine, improve the documentation, or work on resolver parity tests. See the Contribute tab.</p>
+    </details>
+  </section>
+
+  <section class="panel" role="tabpanel" id="panel-contribute" aria-labelledby="tab-contribute" tabindex="0" hidden>
+    <h1>Contribute</h1>
+    <p>Strata is open source under GPL-2.0. The main repository contains Step, the installer, the configuration defaults, and the kernel fragment. This site lives in its own repository.</p>
+
+    <div class="cta">
+      <a class="button primary" href="https://github.com/Xioriya/strata">View the repository</a>
+      <a class="button" href="https://github.com/Xioriya/strata/issues">Open an issue</a>
+    </div>
+
+    <h2>Good first tasks</h2>
+    <ul class="list">
+      <li>Run the installer in a VM and report every confusing prompt.</li>
+      <li>Benchmark <code>emerge -p -t</code> on a fixed package set and record the hardware.</li>
+      <li>Add resolver parity tests against Portage.</li>
+      <li>Improve this documentation with precise commands and failure modes.</li>
+      <li>Test the kernel fragment on real hardware and add local overrides.</li>
+    </ul>
+
+    <h2>Build</h2>
+    <pre><code>git clone https://github.com/Xioriya/strata
+cd strata/step
+make
+./step --info</code></pre>
+
+    <h2>Code style</h2>
+    <table>
+      <thead><tr><th>Rule</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Language</td><td>C++20, no third-party dependencies in Step</td></tr>
+        <tr><td>Warnings</td><td>Build with <code>-Wall -Wextra -Wpedantic</code></td></tr>
+        <tr><td>Comments</td><td>No comments in code. Explain intent in the docs.</td></tr>
+        <tr><td>Shell</td><td><code>#!/usr/bin/env bash</code>, <code>set -euo pipefail</code></td></tr>
+        <tr><td>Commits</td><td>Short imperative subject, one logical change</td></tr>
+        <tr><td>License</td><td>GPL-2.0, contributions accepted under the same license</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Design rules</h2>
+    <ul class="list">
+      <li>Never modify the Gentoo ebuild tree.</li>
+      <li>Never claim a feature works before it has a test.</li>
+      <li>Keep the installer steps independent and idempotent where possible.</li>
+      <li>Report errors with the failing command, not a generic message.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>Strata GNU/Linux</span>
+    <span>Step 0.0.1 · pre-alpha</span>
+    <span>GPL-2.0</span>
+    <a href="https://github.com/Xioriya/strata">GitHub</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
